@@ -12,7 +12,8 @@ pipeline{
 
         stage("Test") {
             steps {
-                 def containerExists = bat(script: 'docker ps -a --format "{{.Names}}" | findstr %container_name%', returnStatus: true) == 0
+                script{
+                    def containerExists = bat(script: 'docker ps -a --format "{{.Names}}" | findstr %container_name%', returnStatus: true) == 0
 
                     if (containerExists) {
                         echo "Stopping and removing existing container..."
@@ -21,8 +22,9 @@ pipeline{
                     } else {
                         echo "No existing container found, running a new one..."
                         bat 'docker run --name %container_name% -p 80:80 -d sahilrajputwins/helloworld:%BUILD_ID%'
-                    }
-                }
+                    }        
+                }   
+            }
         }
         stage("Login") {
             steps {
