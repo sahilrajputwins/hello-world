@@ -21,8 +21,8 @@ pipeline{
                         bat 'docker rm %container_name%'
                     } else {
                         echo "No existing container found, running a new one..."
-                        bat 'docker run --name %container_name% -p 80:80 -d sahilrajputwins/helloworld:%BUILD_ID%'
-                    }        
+                    }  
+                    bat 'docker run --name %container_name% -p 80:80 -d sahilrajputwins/helloworld:%BUILD_ID%'
                 }   
             }
         }
