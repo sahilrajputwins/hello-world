@@ -17,7 +17,7 @@ pipeline{
 
                     if (containerExists) {
                         echo "Stopping and removing existing container..."
-                        bat 'docker stop %container_name%
+                        bat 'docker stop %container_name%'
                         bat 'docker rm %container_name%'
                     } else {
                         echo "No existing container found, running a new one..."
