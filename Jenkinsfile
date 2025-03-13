@@ -1,9 +1,7 @@
 pipeline{
     agent any
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhubcredentials')
-        //credentials()- helper method
-        // environemnt_name = credential ID (set whenn storing credential in Jenkins)
+        container_name= 'mycontainer'
     }
     stages{
         stage("Build") {
@@ -14,7 +12,11 @@ pipeline{
 
         stage("Test") {
             steps {
-                bat 'docker run --name mycontainer -p 80:80 -d sahilrajputwins/helloworld:%BUILD_ID%'
+                bat '''
+                    docker stop %container_name% || echo building %container_name%
+                    docker rm %container_name%
+                '''
+                bat 'docker run --name %container_name% -p 80:80 -d sahilrajputwins/helloworld:%BUILD_ID%'
             }
         }
         stage("Login") {
@@ -38,7 +40,4 @@ pipeline{
             }
         }
     }
-
-    
-    
 }
