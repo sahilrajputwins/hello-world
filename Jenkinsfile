@@ -13,9 +13,9 @@ pipeline{
         stage("Test") {
             steps {
                 script{
-                    def containerExists = bat(script: 'docker ps -a --format "{{.Names}}" | findstr %container_name%', returnStatus: true)
+                    def containerExists = bat(script: 'docker ps -a --format "{{.Names}}" | findstr %container_name%', returnStatus: true)==0
 
-                    if (containerExists==0) {
+                    if (containerExists) {
                         echo "Stopping and removing existing container..."
                         bat 'docker stop %container_name%'
                         bat 'docker rm %container_name%'
